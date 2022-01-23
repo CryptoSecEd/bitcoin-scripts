@@ -51,15 +51,14 @@ def get_out_addr(address, txtime, prev_level):
 def nice_print(array):
     """Print the addresses in the array with level
     """
-    for i in range(len(array)):
-        print(f"Depth: {i} has {len(array[i])} matches")
+    for i, outer_value in enumerate(array):
+        print(f"Depth: {i} has {len(outer_value)} matches")
         print(f"Level: {i}")
-        for j in range(len(array[i])):
-            print(f"Address: {array[i][j][0]}, " +
-                  f"Date/time: {datetime.fromtimestamp(array[i][j][1])}, " +
-                  f"Previous level index: {array[i][j][2]}"
+        for inner_value in outer_value:
+            print(f"Address: {inner_value[0]}, " +
+                  f"Date/time: {datetime.fromtimestamp(inner_value[1])}, " +
+                  f"Previous level index: {inner_value[2]}"
                   )
-            # print(array[i][j][0])
     return 0
 
 
@@ -82,6 +81,7 @@ def main():
     parser.add_argument("firstaddr", help="The sending address")
     parser.add_argument("depth", help="The depth of the search")
     args = parser.parse_args()
+    print("Seaching blockchain ...")
     adr = args.firstaddr
     depth = int(args.depth)
     all_adr = gather_outputs(adr, depth)
